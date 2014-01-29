@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BattenHall</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!--    Required Stylesheet     -->
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/template.css"/>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+    <style type="text/css">
+      .subunit.SCT { fill: #ddc; }
+      .subunit.WLS { fill: #cdd; }
+      .subunit.NIR { fill: #cdc; }
+      .subunit.ENG { fill: #dcd; }
+      .subunit.IRL { display: none; }
+      // h3{margin-top: 200px;}
+
+      svg {
+        /*        width:  960px;
+                height: 800px;*/
+        pointer-events: all;
+      }
+
+      circle {
+        fill: #dbe4f0;
+      }
+
+      path {
+        fill: #aaa;
+        stroke: #fff;
+      }
+
+      /*      #header {
+              top: 7px;
+              left: 685px;
+              text-align: right;
+              width: auto;
+            }
+      
+            #header div {
+              font-size: 12px;
+            }*/
+      .tip { color: #999; }
+
+    </style>
+    <!--    Required Javascript Libraries   -->
+    <script type="text/javascript" src="assets/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="assets/lib/d3.v3.min.js"></script>
+    <script type="text/javascript" src="assets/lib/queue.v1.min.js"></script>
+    <script type="text/javascript" src="assets/lib/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="assets/blockUI/jquery.blockUI.js"></script>
+    <script src="assets/lib/d3.geo.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row-fluid padding-top-bottom-40">
+        <div class="span4 detail-content">
+          <div class="row-fluid">
+            <p>The Financial Times <strong class="text-upper-case">social data</strong></p>
+            <br/><br/>
+            <p class="title">Who's Reading ?</p>
+            <br/>
+            <p class="subtitle">Your interactive guide to who's reading what how and where.</p>
+
+            <hr/>
+
+            <p>
+              <span class="label" id="europe">Europe (excluding the UK)</span>
+              <span class="label" id="uk">UK</span>
+            </p>
+            <p>
+              <span class="label" id="us">The Americas</span>
+              <span class="label" id="africa">Africa & Middle East</span>
+            </p>
+            <p>
+              <span class="label" id="asia">Asia</span>
+              <span class="label label-info" id="world">The World</span>
+            </p>
+
+            <hr/>
+          </div>
+        </div>
+
+        <!--    World Map on Globe Wrapper  -->
+        <div class="span8">
+          <div><label for="animate">animate:</label>
+            <input id="animate" type="checkbox" checked>
+          </div>
+          <h1 class="location-name"></h1>
+          <div class="world-map-wrapper"></div>
+        </div>
+      </div>
+    </div>
+
+    <!--    Page specific javascript    -->
+    <!--<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>-->
+    <script type="text/javascript" src="assets/js/index.js"></script>
+  </body>
+</html>

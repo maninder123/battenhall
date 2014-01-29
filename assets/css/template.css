@@ -1,0 +1,97 @@
+/* 
+    Document   : template
+    Created on : Jan 6, 2014, 11:08:16 AM
+    Author     : Anil
+    Description:
+        Purpose of the stylesheet follows.
+*/
+body {
+    margin:0px;
+    background: #FEF1DE;
+}
+/*
+================================================================================
+----------------------------  CSS FOR WORLD TOUR GRAPH -------------------------
+================================================================================
+*/
+.world-map-wrapper{
+    margin-top: 80px;
+}
+h1 {
+    position: absolute;
+    top: 280px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    width: 960px;
+}
+.padding-top-bottom-40{
+    margin: 40px 0;
+}
+.margin-left-40{
+    margin-left: 40px;
+}
+.detail-content{
+    margin: 100px 0 100px 60px;
+    border-right: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
+}
+strong.text-upper-case{
+    text-transform: uppercase;
+    color: #7BA8C5;
+    font-size: 16px;
+}
+p.title{
+    font-size: 36px;
+}
+p.subtitle{
+    font-size: 14px;
+}
+span.label{
+    padding: 5px 20px;
+    margin-right: 5px;
+}
+span.label:hover{
+    cursor: pointer;
+}
+.states {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+}
+
+/*
+================================================================================
+--------------------    CSS FOR EUROPE MAP  ------------------------------------
+================================================================================
+*/
+/*body {
+  background: #fcfcfa;
+}*/
+
+.stroke {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+.fill {
+  fill: #fff;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5
+}
+
+.land {
+  fill: #222;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
