@@ -1,63 +1,92 @@
 /* 
     Document   : template
     Created on : Jan 6, 2014, 11:08:16 AM
-    Author     : Anil
+    Author     : Maninder
     Description:
         Purpose of the stylesheet follows.
 */
 body {
-    margin:0px;
-    background: #FEF1DE;
+  margin:0px;
+  background: #000000;
+  font-family:"Times New Roman", Times, serif;
+}
+.container{
+  width: 1100px;
+  background: #FEF1DE;
+}
+
+.detail-content{
+  // margin: 100px 0 100px 60px;
+  border-right: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  width: 300px;
+  padding-left: 30px;
+  float:left;
+}
+
+.world-map-wrapper{
+  /*margin-top: 80px;*/
+  width: 760px;
+  float: left;
+}
+.financial_time_heading{
+  height:20px;
+  background: #E1E1BD;
+  border-top: 2px solid #A4A48A;
+  font-size: 8px;
+  padding:2px 0 2px 15px;
+  margin-bottom:10px;
+}
+
+strong.text-upper-case{
+  text-transform: uppercase;
+  color: #386890;
+  font-size: 12px;
+}
+
+p.title{
+  font-size: 26px; 
+}
+span.label{
+  padding: 5px 20px;
+  margin-right: 5px;
+  //background-color:#E1E1BD; 
+}
+span.label:hover{
+  cursor: pointer;
 }
 /*
 ================================================================================
 ----------------------------  CSS FOR WORLD TOUR GRAPH -------------------------
 ================================================================================
 */
-.world-map-wrapper{
-    margin-top: 80px;
-}
-h1 {
-    position: absolute;
-    top: 280px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 18px;
-    text-align: center;
-    width: 960px;
-}
+
+/*h1 {
+  position: absolute;
+  top: 280px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  text-align: center;
+  width: 960px;
+}*/
 .padding-top-bottom-40{
-    margin: 40px 0;
+  margin: 40px 0;
+  border: 0px solid;
 }
 .margin-left-40{
-    margin-left: 40px;
+  margin-left: 40px;
 }
-.detail-content{
-    margin: 100px 0 100px 60px;
-    border-right: 1px solid #e2e2e2;
-    border-bottom: 1px solid #e2e2e2;
-}
-strong.text-upper-case{
-    text-transform: uppercase;
-    color: #7BA8C5;
-    font-size: 16px;
-}
-p.title{
-    font-size: 36px;
-}
+
+
+
 p.subtitle{
-    font-size: 14px;
+  font-size: 14px;
 }
-span.label{
-    padding: 5px 20px;
-    margin-right: 5px;
-}
-span.label:hover{
-    cursor: pointer;
-}
+
 .states {
-    fill: none;
-    stroke: #fff;
-    stroke-linejoin: round;
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
 }
 
 /*
@@ -94,4 +123,51 @@ span.label:hover{
   fill: none;
   stroke: #fff;
   stroke-width: .5px;
+}
+
+
+/*
+================================================================================
+--------------------    CSS FOR PAGE STYLE  ------------------------------------
+================================================================================
+*/
+
+.subunit.SCT { fill: #ddc; }
+.subunit.WLS { fill: #cdd; }
+.subunit.NIR { fill: #cdc; }
+.subunit.ENG { fill: #dcd; }
+.subunit.IRL { display: none; }
+// h3{margin-top: 200px;}
+
+svg {
+  /*                width:  960px;
+                  height: 800px;*/
+  width: 750px;
+  padding-left:10px;
+  pointer-events: all;
+  padding-bottom: 20px;
+}
+circle {
+  fill: #dbe4f0;
+}
+
+path {
+  /*fill: #aaa;*/
+  stroke: #fff;
+}
+.tip { color: #999; }
+.color_1{
+  fill: #E6E6FA;
+}
+.color_2{
+  fill: #663333;
+}
+.color_3{
+  fill: #FFCC99;
+}
+.color_4{
+  fill: #FFFACD;
+}
+.color_5{
+  fill: #E6E6FA;
 }

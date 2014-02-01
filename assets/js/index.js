@@ -13,7 +13,7 @@ $(document).ready(function() {
             .transition()
             .each("end", transition);
   }
-  /*  ----------------------------------------------------------------------  */
+
   /**
    * This function is used to plot the world map with tour transition effect.
    * 
@@ -22,87 +22,14 @@ $(document).ready(function() {
    * @access      public
    * @author      Maninder Singh  <manindersingh221@gmail.com>
    */
-  function drawWorldGraph_old() {
-    var width = 960,
-            height = 500;
-
-    var projection = d3.geo.orthographic()
-            .scale(248)
-            .clipAngle(90);
-
-    var canvas = d3.select('.world-map-wrapper')
-            .append("canvas")
-            .attr("width", width)
-            .attr("height", height);
-
-    var c = canvas.node().getContext("2d");
-
-    var path = d3.geo.path()
-            .projection(projection)
-            .context(c);
-
-    var title = d3.select('.location-name');
-
-    queue()
-            .defer(d3.json, "assets/json/world-110m.json")
-            .defer(d3.tsv, "assets/csv/world-country-names.tsv")
-            .await(ready);
-
-    function ready(error, world, names) {
-      var globe = {type: "Sphere"},
-      land = topojson.feature(world, world.objects.land),
-              countries = topojson.feature(world, world.objects.countries).features,
-              borders = topojson.mesh(world, world.objects.countries, function(a, b) {
-                return a !== b;
-              }),
-              i = -1,
-              n = countries.length;
-
-      countries = countries.filter(function(d) {
-        return names.some(function(n) {
-          if (d.id == n.id)
-            return d.name = n.name;
-        });
-      }).sort(function(a, b) {
-        return a.name.localeCompare(b.name);
-      });
-
-      (function transition() {
-        d3.transition()
-                .duration(1250)
-                .each("start", function() {
-                  title.text(countries[i = (i + 1) % n].name);
-                })
-                .tween("rotate", function() {
-                  var p = d3.geo.centroid(countries[i]),
-                          r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
-
-                  return function(t) {
-                    projection.rotate(r(t));
-                    c.clearRect(0, 0, width, height);
-                    c.fillStyle = "#bbb", c.beginPath(), path(land), c.fill();
-                    c.fillStyle = "#f00", c.beginPath(), path(countries[i]), c.fill();
-                    c.strokeStyle = "#fff", c.lineWidth = .5, c.beginPath(), path(borders), c.stroke();
-                    c.strokeStyle = "#000", c.lineWidth = 2, c.beginPath(), path(globe), c.stroke();
-                  };
-                })
-                .transition()
-                .each("end", transition);
-      })();
-      $.unblockUI();
-    }
-  }
-
-
   function drawWorldGraph() {
     var feature // eventually: all svg paths (countries) of the world
             , toggle; // animation on/off control
-
     var projection = d3.geo.azimuthal()
             .scale(250)
             .origin([-71.03, 0])
             .mode("orthographic")
-           // .translate([400, 400]);
+    // .translate([400, 400]);
 
     var circle = d3.geo.greatCircle()
             .origin(projection.origin());
@@ -111,18 +38,22 @@ $(document).ready(function() {
             .projection(projection);
 
     var svg = d3.select(".world-map-wrapper").append("svg:svg")
-            .attr("width", 960)
+            .attr("width", 750)
             .attr("height", 500)
             .on("mousedown", mousedown);
 
-    if (frameElement)
-      frameElement.style.height = '800px';
+//    if (frameElement)
+//      frameElement.style.height = '800px';
 
     d3.json("assets/json/world-countries.json", function(collection) {
       feature = svg.selectAll("path")
               .data(collection.features)
               .enter().append("svg:path")
-              .attr("d", clip);
+              .attr("d", clip)
+              .attr("class", function() {
+                var rand_num = Math.floor((Math.random() * 5) + 1);
+                return 'color_' + rand_num;
+              });
 
       feature.append("svg:title")
               .text(function(d) {
@@ -140,7 +71,7 @@ $(document).ready(function() {
 
     function stopAnimation() {
       done = true;
-      d3.select('#animate').node().checked = false;
+      //  d3.select('#animate').node().checked = false;
     }
 
     function startAnimation() {
@@ -162,12 +93,6 @@ $(document).ready(function() {
     d3.select(window)
             .on("mousemove", mousemove)
             .on("mouseup", mouseup);
-
-//      d3.select("select").on("change", function() {
-//        stopAnimation();
-//        projection.mode(this.value).scale(scale[this.value]);
-//        refresh(750);
-//      });
 
     var m0
             , o0
@@ -212,7 +137,7 @@ $(document).ready(function() {
     }
     $.unblockUI();
   }
-  /*  ----------------------------------------------------------------------  */
+
   /**
    * 
    * @param {type} d
@@ -228,7 +153,6 @@ $(document).ready(function() {
     ]);
   }
 
-  /*  ----------------------------------------------------------------------  */
   /**
    * This function is used to draw the map of United States.
    * 
@@ -239,12 +163,11 @@ $(document).ready(function() {
    * 
    */
   function drawUSGraph() {
-
-    var width = 960,
+    var width = 700,
             height = 500;
 
     var projection = d3.geo.albersUsa()
-            .scale(1000)
+            .scale(800)
             .translate([width / 2, height / 2]);
 
     /*  var color = d3.scale.category20c();*/
@@ -275,7 +198,7 @@ $(document).ready(function() {
       svg.append("g")
               .attr("class", "counties")
               .selectAll("path")
-              .data(topojson.feature(us, us.objects.counties).features)
+              .data(topojson.feature(us, us.objects.states).features)
               .enter().append("path")
               .attr("d", path)
               .style("fill", function(d) {
@@ -292,17 +215,17 @@ $(document).ready(function() {
                  }*/
               });
 
-      svg.append("path")
-              .datum(topojson.mesh(us, us.objects.states, function(a, b) {
-                return a.id !== b.id;
-              }))
-              .attr("class", "states")
-              .attr("d", path);
+//      svg.append("path")
+//              .datum(topojson.mesh(us, us.objects.states, function(a, b) {
+//                return a.id !== b.id;
+//              }))
+//              .attr("class", "states")
+//              .attr("d", path);
       $.unblockUI();
     }
   }
 
-  /*  ----------------------------------------------------------------------  */
+
   /**
    * This function is used to draw the United Kingdom(UK) graph.
    * 
@@ -313,14 +236,14 @@ $(document).ready(function() {
    */
   function drawUKGraph() {
 
-    var width = 960,
-            height = 600;
+    var width = 700,
+            height = 500;
 
     var projection = d3.geo.albers()
-            .center([0, 55.4])
-            .rotate([4.4, 0])
+            .origin([-10, 55.4])
+            // .rotate([4.4, 0])
             .parallels([50, 60])
-            .scale(3000)
+            .scale(2400)
             .translate([width / 3, height / 3]);
 
     var path = d3.geo.path()
@@ -349,7 +272,7 @@ $(document).ready(function() {
     });
   }
 
-  /*  ----------------------------------------------------------------------  */
+
   /**
    * This function is used to draw the Europe Graph.
    * 
@@ -360,13 +283,13 @@ $(document).ready(function() {
    */
   function drawEuropeGraph() {
 
-    var width = 960,
+    var width = 700,
             height = 500;
 
-    var projection = d3.geo.stereographic()
-            .center([3.9, 43.0])
-            .scale(1260)
-            .translate([width / 3, height / 2]);
+    var projection = d3.geo.albers()
+            .origin([14.9, 60.0])
+            .scale(650)
+            .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
             .projection(projection);
@@ -376,9 +299,10 @@ $(document).ready(function() {
             .attr("width", width)
             .attr("height", height);
 
-    d3.json("assets/json/europe-regions.json", function(error, europe) {
+    d3.json("assets/json/continent_Europe_subunits.json", function(error, europe) {
+      console.log(europe.features);
       svg.selectAll(".region")
-              .data(topojson.feature(europe, europe.objects.regions).features)
+              .data(topojson.feature(europe, europe.objects.layer1).features)
               .enter()
               .append("path")
               /*.filter(function(d) {
@@ -395,7 +319,7 @@ $(document).ready(function() {
     });
   }
 
-  /*  ----------------------------------------------------------------------  */
+
   /**
    * This function is used to draw the Africa and Middle East projection on map.
    * 
@@ -404,103 +328,15 @@ $(document).ready(function() {
    * @access      public
    * @author      Maninder Singh  <manindersingh221@gmail.com> 
    */
-  function drawAfricaGraph_old() {
-
-    var width = 960,
-            height = 550;
-
-//    var projection = d3.geo.chamberlin()
-//            .points([[0, 22], [45, 22], [22.5, -22]])
-//            .center([0, -1])
-//            .scale(200)
-//            .translate([width / 2, height / 2])
-    //.precision(.1)
-    //.clipAngle(80);
-
-    var projection = d3.geo.mercator()
-            .center([20, 10])
-            .scale((width + 1) / 2 / Math.PI)
-            .translate([width / 2, height / 2])
-            .precision(.1);
-
-
-    var path = d3.geo.path()
-            .projection(projection);
-
-    var graticule = d3.geo.graticule()
-            .extent([[-30, -40], [70, 50]]);
-
-    var svg = d3.select('.world-map-wrapper')
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height);
-
-    var defs = svg.append("defs");
-
-    defs.append("path")
-            .attr("id", "outline")
-            .datum(graticule.outline)
-            .attr("d", path);
-
-//    defs.append("clipPath")
-//            .attr("id", "clip")
-//            .append("use")
-//            .attr("xlink:href", "#outline");
-//
-//    svg.append("use")
-//            .attr("class", "stroke")
-//            .attr("xlink:href", "#outline");
-
-    /*svg.append("use")
-     .attr("class", "fill")
-     .attr("xlink:href", "#outline");*/
-
-//    svg.append("path")
-//            .datum(graticule)
-//            .attr("class", "graticule")
-//            .attr("d", path);
-
-    d3.json("assets/json/world-50m.json", function(error, world) {
-      console.log(world.objects.countries.geometries);
-      var russia = world.objects.countries.geometries.filter(function(d) {
-        return d.id === 298;
-      })[0]
-      //console.log(russia);
-      //console.log(world);
-      var g = svg.insert("g", ".graticule")
-              .attr("clip-path", "url(#clip)");
-
-      g.append("path")
-              //.datum(topojson.feature(world, world.objects.land))
-              .datum(topojson.feature(world, russia))
-              .attr("class", "land")
-              .style("fill", function(d) {
-                return '#BBBBBB';
-              })
-              .attr("d", path);
-
-      g.append("path")
-              .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
-                return a !== b;
-              }))
-              .attr("class", "boundary")
-              .attr("d", path);
-
-      $.unblockUI();
-    });
-  }
-
-
-
   function drawAfricaGraph() {
 
-    var width = 560,
-            height = 560;
+    var width = 700,
+            height = 500;
 
     var projection = d3.geo.mercator()
-            .center([0, -10])
-            .scale(300)
-            .rotate(1, 0)
+            //.center([0, -10])
+            .scale(2000)
+            //.rotate(1, 0)
             .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
@@ -538,19 +374,23 @@ $(document).ready(function() {
   }
 
 
-
-
-  /*  ----------------------------------------------------------------------  */
-
+  /**
+   * This function is used to draw the Asia projection on map.
+   * 
+   * @version     0.0.1
+   * @since       0.0.1
+   * @access      public
+   * @author      Maninder Singh  <manindersingh221@gmail.com> 
+   */
   function drawAsiaGraph() {
 
-    var width = 560,
-            height = 460;
+    var width = 700,
+            height = 500;
 
-    var projection = d3.geo.mercator()
-            .center([70, 60])
-            .scale(160)
-            .rotate(1, 0)
+    var projection = d3.geo.albers()
+            .origin([100, 35])
+            .scale(300)
+            // .rotate(1, 0)
             .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
@@ -587,15 +427,86 @@ $(document).ready(function() {
     });
   }
 
-  /*  ----------------------------------------------------------------------  */
+  function drawPieChart() {
+    var testdata = [
+      {
+        key: "One",
+        y: 5
+      },
+      {
+        key: "Two",
+        y: 2
+      },
+      {
+        key: "Three",
+        y: 9
+      },
+      {
+        key: "Four",
+        y: 7
+      },
+      {
+        key: "Five",
+        y: 4
+      },
+      {
+        key: "Six",
+        y: 3
+      },
+      {
+        key: "Seven",
+        y: .5
+      }
+    ];
+
+
+    nv.addGraph(function() {
+      var width = 300,
+              height = 300;
+
+      var chart = nv.models.pieChart()
+              .x(function(d) {
+                return d.key
+              })
+              .y(function(d) {
+                return d.y
+              })
+              .color(d3.scale.category10().range())
+              .width(width)
+              .height(height)
+      //.showLabels(false);
+
+      d3.select("#test1")
+              .datum(testdata)
+              .transition().duration(1200)
+              .attr('width', width)
+              .attr('height', height)
+              //.showLabels(false)
+              .call(chart);
+
+
+      chart.dispatch.on('stateChange', function(e) {
+        nv.log('New State:', JSON.stringify(e));
+      });
+
+      return chart;
+    });
+  }
+
+
+  /*  blocking the UI by displaying a loading image on document ready */
+  $.blockUI();
+
   /**
    * Calling the function to draw the world graph on document loading time.
    */
-  /*  blocking the UI by displaying a loading image on document ready */
-  $.blockUI();
+  drawPieChart();
   drawWorldGraph();
+//drawAfricaGraph()
+  // drawAsiaGraph()
+//  drawUKGraph()
+//drawEuropeGraph()
 
-  /*  ----------------------------------------------------------------------  */
   /**
    * This script is used to handle the click event on different location labels
    * and caal the different function to draw the graph accordingly.
