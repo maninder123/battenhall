@@ -8,25 +8,31 @@
     <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap-responsive.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/template.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery_ui.css"/>
     <!--    Required Javascript Libraries   -->
     <script type="text/javascript" src="assets/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="assets/lib/jquery_ui.js"></script>
     <script type="text/javascript" src="assets/lib/d3.v3.min.js"></script>
     <script type="text/javascript" src="assets/lib/queue.v1.min.js"></script>
     <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
     <script type="text/javascript" src="assets/lib/topojson.v1.min.js"></script>
     <script type="text/javascript" src="assets/blockUI/jquery.blockUI.js"></script>
-    
+
 
     <link rel="stylesheet" type="text/css" media="all" href="assets/audioPlay/css/styles.css">
     <!--<script type="text/javascript" src="assets/audioPlay/js/jquery-1.10.2.min.js"></script>-->
     <script type="text/javascript" src="assets/audioPlay/js/mediaelement-and-player.min.js"></script>
     <link href="assets/src/nv.d3.css" rel="stylesheet" type="text/css">
-<!--    <script src="assets/lib/d3.v3.js"></script>-->
+    <!--    <script src="assets/lib/d3.v3.js"></script>-->
     <script src="assets/lib/nv.d3.js"></script>
     <script src="assets/src/models/legend.js"></script>
     <script src="assets/src/models/pie.js"></script>
     <script src="assets/src/models/pieChart.js"></script>
     <script src="assets/src/utils.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="assets/css/rickshaw.css">
+    <script src="assets/lib/rickshaw.js"></script>
+
     <script src="assets/lib/d3.geo.js"></script>
     <script>
       $(function() {
@@ -42,6 +48,7 @@
         });
       });
     </script>
+
   </head>
   <body>
     <div class="container">
@@ -84,17 +91,30 @@
         <!--    World Map on Globe Wrapper  -->
         <!--                    <div><label for="animate">animate:</label> --->
         <!--<input id="animate" type="checkbox" checked>-->
-      </div>
-      <!--<h1 class="location-name"></h1>-->
-      <div class="world-map-wrapper">
 
-      </div>
+        <!--<h1 class="location-name"></h1>-->
+        <div class="container_Right">
+          <div class="world-map-wrapper">
 
+
+          </div>
+            <p>
+<!--<label for="amount">Price range:</label>-->
+<label id="amount"  style="border:0 solid #FEF1DE; color:#f6931f; font-weight:bold; background-color: #FEF1DE;">aaa</label>
+<input type="hidden" id="range_start" value="0">
+<input type="hidden" id="range_end" value="60">
+</p>
+<div id="slider-range" style="margin-left: 13px;"></div>
+          <div id="lineChart" style="min-height: 250px;"></div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!--    Page specific javascript    -->
-  <!--<script src="assets/lib/d3.geo.projection.v0.min.js"></script>-->
-  <script type="text/javascript" src="assets/js/index.js"></script>
-</body>
+    <!--    Page specific javascript    -->
+    <!--<script src="assets/lib/d3.geo.projection.v0.min.js"></script>-->
+    <script type="text/javascript" src="assets/js/index.js"></script>
+    <script>
+
+    </script>
+  </body>
 </html>

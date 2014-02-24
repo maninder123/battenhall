@@ -13,8 +13,19 @@ body {
 .container{
   width: 1100px;
   background: #FEF1DE;
+ //background:#ffffff;
 }
-
+.world-map-wrapper svg
+{
+ // background:#ffffff;
+ position: relative;
+// right: 100px;
+}
+svg circle
+{
+  background:#ffffff !important;
+  fill:#ffffff !important;
+}
 .detail-content{
   // margin: 100px 0 100px 60px;
   border-right: 1px solid #e2e2e2;
@@ -24,10 +35,19 @@ body {
   float:left;
 }
 
+.container_Right{
+  width: 765px;
+  float:left;
+}
+
 .world-map-wrapper{
   /*margin-top: 80px;*/
-  width: 760px;
-  float: left;
+  width: 100%;
+  //float: left;
+}
+
+#lineChart{
+  width: 100%;
 }
 .financial_time_heading{
   height:20px;
@@ -51,6 +71,7 @@ span.label{
   padding: 5px 20px;
   margin-right: 5px;
   //background-color:#E1E1BD; 
+  
 }
 span.label:hover{
   cursor: pointer;
@@ -153,21 +174,71 @@ circle {
 
 path {
   /*fill: #aaa;*/
-  stroke: #fff;
+  /*stroke: #fff;*/
 }
 .tip { color: #999; }
 .color_1{
-  fill: #E6E6FA;
+  //fill: #E6E6FA;
+  fill:#f3f3f3;
+}
+.color_2:hover
+{
+  fill:#fdd1a7;
 }
 .color_2{
-  fill: #663333;
+ // fill: #663333;
+ fill:#f3e7da;
 }
 .color_3{
   fill: #FFCC99;
 }
 .color_4{
   fill: #FFFACD;
+  
 }
 .color_5{
   fill: #E6E6FA;
 }
+
+
+
+/* new css  */
+
+/*  Text Styling  */
+
+h1, h2, h3 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 36px;
+  color: black;
+}
+
+h2 {
+  font-size: 21px;
+  line-height: 26px;
+  color: #505050;
+}
+
+p {
+  font-family: BentonSans, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+a, a:active {
+  color: #2e6e9e;
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+  color: white;
+}
+
+body {
+  background: #fff1e0;
+}
+
