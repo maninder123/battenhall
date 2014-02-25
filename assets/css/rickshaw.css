@@ -27,6 +27,7 @@
 	position: absolute;
 	background: white;
 	white-space: nowrap;
+        display: none;
 }
 .rickshaw_graph .detail .x_label.left {
 	left: 0;
