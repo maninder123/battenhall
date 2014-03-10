@@ -23,7 +23,7 @@ $(document).ready(function() {
     var total_list;
 
     var window_width = $(window).width();
-    $('.container_Right').width(window_width - 330);
+    $('.container_Right').width(window_width - 342);
 
 // separating countries , continents vice
     $.ajax({
@@ -1218,7 +1218,7 @@ $(document).ready(function() {
     // auto slider call
     setInterval(function() {
         // console.log('called');
-        // auto_slider();
+        auto_slider();
     }, 2000);
     //
 
@@ -1228,7 +1228,7 @@ $(document).ready(function() {
 
         $('.world-map-wrapper svg').remove();
         var window_width = $(window).width();
-        $('.container_Right').width(window_width - 330);
+        $('.container_Right').width(window_width - 342);
         switch (curr_hour_graph)
         {
             case 0:
