@@ -23,7 +23,7 @@ $(document).ready(function() {
     var total_list;
 
     var window_width = $(window).width();
-    $('.container_Right').width(window_width - 342);
+    $('.container_Right').width(window_width - 362);
 
 // separating countries , continents vice
     $.ajax({
@@ -1228,7 +1228,7 @@ $(document).ready(function() {
 
         $('.world-map-wrapper svg').remove();
         var window_width = $(window).width();
-        $('.container_Right').width(window_width - 342);
+        $('.container_Right').width(window_width - 362);
         switch (curr_hour_graph)
         {
             case 0:
