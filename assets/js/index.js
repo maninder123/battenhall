@@ -1,3 +1,4 @@
+var graph;
 $(document).ready(function() {
 
     var uk_data, asia_data, europe_data, world_data, america_data_1, america_data_2;
@@ -9,8 +10,89 @@ $(document).ready(function() {
     var world_hours_data = [[], [], [], [], []];
     var percent_data = [[], [], [], [], []];
     var curr_hour_graph = 0;
-    var graph;
+    // var graph = new Object();
+
     var non_countries = ['Antarctica', 'French Southern and Antarctic Lands', 'Australia', 'Fiji', 'Kiribati', 'Marshall Islands', 'Micronesia', 'Nauru', 'New Zealand', 'Palau', 'Papua New Guinea', 'Samoa', 'Solomon Islands', 'Tonga', 'Tuvalu', 'Vanuatu'];
+    var calc_widthh = parseFloat((58 / 100) * $(window).width());
+    // countries and countries allocating
+    var europe_countries_list = ['Republic of Serbia'];
+    var uk_countries_list = ['England', 'Scotland', 'Wales', 'Northern Ireland', 'United Kingdom'];
+    var asia_countries_list = [];
+    var americas_countries_list = ['French Guiana'];
+    var africa_countries_list = ['Somaliland', 'United Republic of Tanzania'];
+    var total_list;
+
+    var window_width = $(window).width();
+    $('.container_Right').width(window_width - 330);
+
+// separating countries , continents vice
+    $.ajax({
+        url: 'assets/json/countries.json',
+        dataType: 'json'
+    }).done(function(data) {
+
+        $.each(data, function(k, v) {
+            //console.log(v['name']);
+            switch (v['region'])
+            {
+                case 'Europe':
+                    if ($.inArray(v['name'], uk_countries_list) == -1)
+                    {
+                        europe_countries_list.push(v['name']);
+                    }
+                    break;
+
+                case 'Asia':
+                    asia_countries_list.push(v['name']);
+                    break;
+                case 'Americas':
+                    americas_countries_list.push(v['name']);
+                    break;
+                case 'Africa':
+                    africa_countries_list.push(v['name']);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+
+        total_list = [uk_countries_list, americas_countries_list, europe_countries_list, asia_countries_list, africa_countries_list];
+        //  console.log();
+        // world graph plotting
+        d3.json("assets/json/world-countries.json", function(error, data) {
+            world_data = data;
+            if (world_data)
+            {
+                drawWorldGraph();
+                var slide_width = $('#slider-range').width();
+                var map_width = Math.ceil((((16 / 100) * slide_width)));
+                //console.log('map width',map_width,slide_width);
+                //  $('.world-map-wrapper svg').css('right', map_width);
+
+                var range_start = parseInt($('#range_start').val());
+                var middle_start = range_start + 120;
+                for (var i = 0; i <= 4; i++)
+                {
+                    var b1 = 233,
+                            b2 = 222,
+                            b3 = 207;
+                    //continent_0
+                    b1 = Math.floor(((22 / 100) * world_hours_data[i][middle_start]['y']) + b1);
+                    b2 = Math.floor(((24 / 100) * world_hours_data[i][middle_start]['y']) + b2);
+                    b3 = Math.floor(((28 / 100) * world_hours_data[i][middle_start]['y']) + b3);
+                    //  console.log(b1, b2, b3);
+                    $('.continent_' + i).css('fill', 'rgba(' + b1 + ',' + b2 + ',' + b3 + ',1)');
+
+                }
+
+            }
+        });
+
+    });
+
+
+    $('#slider').width(window_width - 330);
     /**
      * This function is used to end the d3 tansition.
      * 
@@ -48,15 +130,18 @@ $(document).ready(function() {
         var path = d3.geo.path()
                 .projection(projection);
 
+        var width_parent = $('.container_Right').width();
         var svg = d3.select(".world-map-wrapper").append("svg:svg")
                 .attr("width", 750)
                 .attr("height", 500)
                 .on("mousedown", mousedown);
+
         svg.append("circle")
                 .attr("cx", 750 / 2 + 100)
                 .attr("cy", 500 / 2)
                 .attr("r", 250)
                 .attr("fill", "#ffffff");
+
 //    if (frameElement)
 //      frameElement.style.height = '800px';
 
@@ -69,11 +154,22 @@ $(document).ready(function() {
                 .attr("d", clip)
                 .attr("class", function(d) {
                     var name = d.properties.name;
+                    var append;
+                    for (i = 0; i <= 4; i++)
+                    {
+                        if ($.inArray(name, total_list[i]) > -1)
+                        {
+                            //console.log('found',name);
+                            append = i;
+                            break;
+
+                        }
+                    }
                     // console.log(name,name.length,non_countries);
                     if ($.inArray(name, non_countries) > -1)
-                        return 'color_1';
+                        return 'color_1 continent_' + append;
                     else
-                        return 'color_2';
+                        return 'color_2 continent_' + append;
                     //var rand_num = Math.floor((Math.random() * 5) + 1);
                     //return 'color_' + rand_num;
                 });
@@ -90,7 +186,7 @@ $(document).ready(function() {
             else
                 stopAnimation();
         });
-        //});
+        //});   
 
         function stopAnimation() {
             done = true;
@@ -101,8 +197,9 @@ $(document).ready(function() {
             done = false;
             d3.timer(function() {
                 var origin = projection.origin();
-                //origin = [origin[0] + 0.4, origin[1] + 0.1];
-                origin = [origin[0] + 1, origin[1] + 0];
+                //  origin = [origin[0] + 0.4, origin[1] + 0.1];
+                //  origin = [origin[0] + 1, origin[1] + 1];
+                origin = [origin[0] + 0.2, origin[1] + 0];
                 projection.origin(origin);
                 circle.origin(origin);
                 refresh();
@@ -372,8 +469,8 @@ $(document).ready(function() {
 
         })
 
-        console.log(del_arr);
-        console.log('old arr', europe.objects.layer1);
+        //  console.log(del_arr);
+        //  console.log('old arr', europe.objects.layer1);
         $.each(obj_new, function(k, v) {
 
             // console.log(k);
@@ -390,7 +487,7 @@ $(document).ready(function() {
                 });
             }
         });
-        console.log('new arr', obj_new);
+        //console.log('new arr', obj_new);
 
         svg.selectAll(".region")
                 .data(topojson.feature(europe, obj_new).features)
@@ -561,7 +658,7 @@ $(document).ready(function() {
                     })
                     .color(d3.scale.category10().range())
                     .width(width)
-                    .height(height)
+                    .height(height).showLegend(false);
             //.showLabels(false);
 
             d3.select("#test1")
@@ -589,11 +686,18 @@ $(document).ready(function() {
      * Calling the function to draw the world graph on document loading time.
      */
     // drawPieChart();
-    d3.json("assets/json/world-countries.json", function(error, data) {
-        world_data = data;
-        if (world_data)
-            drawWorldGraph();
-    });
+//    d3.json("assets/json/world-countries.json", function(error, data) {
+//        world_data = data;
+//        if (world_data)
+//        {
+//            drawWorldGraph();
+//            var slide_width = $('#slider-range').width();
+//            var map_width = Math.ceil((((16/100)*slide_width)));
+//              console.log('map width',map_width,slide_width);
+//            $('.world-map-wrapper svg').css('right', map_width);
+//            
+//        }
+//    });
     /**
      * This function is used to draw the LineChart based on minutes.
      * 
@@ -630,20 +734,31 @@ $(document).ready(function() {
                 break;
 
         }
-        var val;
-        if ($('#range_start').val() <= 6)
-            val = parseFloat(3.6 + ($('#range_start').val() * 0.2));
-        else
-            val = parseFloat(4.6 + ($('#range_start').val() * 0.0));
-        var left_val = parseFloat(parseFloat($('#range_start').val()) * val);
-        
+        // auto adjust label
+        var current_pos = parseFloat($('#range_start').val() / 60);
+//        var val;
+//        if (current_pos<= 6)
+        //      val = parseFloat(3.6 + (current_pos * 0.5));
+//        else
+//            val = parseFloat(4.6 + (current_pos * 0.0));
+        var left_val = parseFloat(current_pos * 5);
+        left_val = 3 + left_val;
+        //   console.log(left_val);
         $('#amount').css({'left': left_val + '%'});
+
+
         var data = [[], [], [], [], []];
-        var range_start = parseInt($('#range_start').val()) * 60;
-        if (parseInt($('#range_start').val()) == 20)
-            var range_end = parseInt($('#range_end').val() - 1) * 60;
+        var range_start = parseInt($('#range_start').val());
+        var middle_start = range_start + 120;
+        if (parseInt($('#range_start').val()) == 1200)
+        {
+            // var range_end = parseInt($('#range_end').val() - 1);
+            var range_end = 1439;
+        }
         else
-            var range_end = parseInt($('#range_end').val()) * 60;
+        {
+            var range_end = range_start + (4 * 60);
+        }
 
         if (curr_hour_graph == 0)
         {
@@ -682,6 +797,26 @@ $(document).ready(function() {
                     name: 'MID EAST'
                 }
             ];
+
+            //color coding for world graph
+            //  var base_color = rgb(254,246,235,1);
+            //  var full_color = rgb(233,222,207,1);
+
+
+            for (var i = 0; i <= 4; i++)
+            {
+                var b1 = 233,
+                        b2 = 222,
+                        b3 = 207;
+                //continent_0
+                b1 = Math.floor(((22 / 100) * world_hours_data[i][middle_start]['y']) + b1);
+                b2 = Math.floor(((24 / 100) * world_hours_data[i][middle_start]['y']) + b2);
+                b3 = Math.floor(((28 / 100) * world_hours_data[i][middle_start]['y']) + b3);
+                // console.log(b1, b2, b3);
+                $('.continent_' + i).css('fill', 'rgba(' + b1 + ',' + b2 + ',' + b3 + ',1)');
+
+            }
+            //
         }
         else
         {
@@ -716,12 +851,17 @@ $(document).ready(function() {
             ];
         }
         // console.log(data[0].length);
-
+        // var calc_width = parseFloat((58 / 100) * $(window).width());
+        var calc_width = $('#lineChart').width() - 10;
+        //$('#slider').width(calc_width);
         $('#lineChart').html('');
+        console.log();
         graph = new Rickshaw.Graph({
             element: document.getElementById("lineChart"),
-            width: 700,
-            //height: 500,
+            //width: $('#lineChart').width() - 10,
+
+            width: calc_width,
+            height: 156,
             renderer: 'line',
             series: graph_data
         });
@@ -729,8 +869,17 @@ $(document).ready(function() {
         graph.render();
 
         var hoverDetail = new Rickshaw.Graph.HoverDetail({
-            graph: graph
+            graph: graph,
+            yFormatter: function(y) {
+                if (curr_hour_graph == 0)
+                    return Math.floor(y) + '%';
+                else
+                    return Math.floor(y);
+            }
         });
+
+
+
     }
 //
     /**
@@ -748,35 +897,48 @@ $(document).ready(function() {
         var curr_end_point = parseInt($('#range_end').val());
 
         curr_start_point += 1;
-        curr_end_point = curr_start_point + 1;
+        curr_end_point = curr_start_point + (4 * 60);
 
-        if (curr_end_point >= 20 )
+        if (curr_end_point >= 1200)
         {
-            curr_start_point = 0;
-            curr_end_point = 4;
+            curr_start_point = 00;
+            curr_end_point = 240;
         }
 
         $('#range_start').val(curr_start_point);
         $('#range_end').val(curr_end_point);
 
         $("#slider-range").slider({values: [curr_start_point]});
-        $("#amount").text("" + $("#slider-range").slider("values", 0) +
-                ":00 - " + ($("#slider-range").slider("values", 0) + 4) + ":00 (Hours)");
-        
-         var val;
-        if ($('#range_start').val() <= 6)
-            val = parseFloat(3.6 + ($('#range_start').val() * 0.2));
-        else
-            val = parseFloat(4.6 + ($('#range_start').val() * 0.0));
-        var left_val = parseFloat(parseFloat($('#range_start').val()) * val);
-        
+
+        var start = parseInt(curr_start_point);
+        var end = parseInt(curr_end_point);
+        var middle = start + 120;
+        var middle_h = pad(Math.floor(middle / 60));
+        var middle_m = pad(middle % 60);
+        var start_h = pad(Math.floor(start / 60));
+        var start_m = pad(start % 60);
+        var end_h = pad(Math.floor(end / 60));
+        var end_m = pad(end % 60);
+
+        // $("#amount").text("" + start_h + ":" + start_m + " - " + (end_h) + ":" + end_m + "");
+        $("#amount").text("" + middle_h + ":" + middle_m);
+        // auto adjust label
+        var current_pos = parseFloat($('#range_start').val() / 60);
+//        var val;
+//        if (current_pos<= 6)
+        //      val = parseFloat(3.6 + (current_pos * 0.5));
+//        else
+//            val = parseFloat(4.6 + (current_pos * 0.0));
+        var left_val = parseFloat(current_pos * 5);
+
         $('#amount').css({'left': left_val + '%'});
+
         drawHoursGraph();
 
 
     }
     // uk data
-    $('.world-map-wrapper svg').css('right', '100px');
+    //  $('.world-map-wrapper svg').css('right', '100px');
     d3.json("assets/json/uk.json", function(error, data) {
         uk_data = data;
 
@@ -797,7 +959,7 @@ $(document).ready(function() {
         europe_data = europe;
     });
 
-    //africa data
+    //africa data 
     d3.json("assets/json/africa.json", function(error, africa) {
         africa_data = africa;
     });
@@ -873,9 +1035,12 @@ $(document).ready(function() {
                 transition();
                 $('.world-map-wrapper, .location-name').empty();
                 curr_hour_graph = 0;
-                drawHoursGraph();
+
                 drawWorldGraph();
-                $('.world-map-wrapper svg').css('right', '100px');
+                drawHoursGraph();
+                var slide_width = $('#slider-range').width();
+                var map_width = Math.ceil((((16 / 100) * slide_width)));
+                // $('.world-map-wrapper svg').css('right', map_width);
                 break;
             default:
                 transition();
@@ -887,24 +1052,35 @@ $(document).ready(function() {
         }
     });
 
+    function pad(val)
+    {
+        val = '0' + val;
+        return val.slice(-2);
+    }
     // line chart 
     // range slider js
     $("#slider-range").slider({
         // range: true,
         min: 0,
-        max: 20,
+        max: 1200,
         values: [parseInt($('#range_start').val())],
         slide: function(event, ui) {
             //var h,m;
-            //  var h = Math.floor( $('.totalMin').html() / 60);          
-            //   var m = $('.totalMin').html() % 60;
-            //  console.log(ui.values[ 0 ]);
-            // console.log($('.ui-slider-handle').css('left'));
-            $("#amount").text("" + ui.values[ 0 ] + ":00 - " + (ui.values[0  ] + 4) + ":00 (Hours)");
-            $("#range_start").val(ui.values[ 0 ]);
-            $("#range_end").val(ui.values[ 0 ] + 4);
+            var start = parseInt(ui.values[ 0 ]);
+            var middle = start + 120;
+            var middle_h = pad(Math.floor(middle / 60));
+            var middle_m = pad(middle % 60);
+            var end = parseInt(ui.values[ 0 ]) + (4 * 60);
+            var start_h = pad(Math.floor(start / 60));
+            var start_m = pad(start % 60);
+            var end_h = pad(Math.floor(end / 60));
+            var end_m = pad(end % 60);
 
-            //reDrawHoursGraph(us_hours_data);
+            // $("#amount").text("" + start_h + ":" + start_m + " - " + (end_h) + ":" + end_m + "");
+            $("#amount").text("" + middle_h + ":" + middle_m);
+            $("#range_start").val(start);
+            $("#range_end").val(end);
+
             drawHoursGraph();
 
 
@@ -912,8 +1088,10 @@ $(document).ready(function() {
     });
 //
 
-    $("#amount").text("" + $("#slider-range").slider("values", 0) +
-            ":00 - " + ($("#slider-range").slider("values", 0) + 4) + ":00 (Hours)");
+//    $("#amount").text("" + $("#slider-range").slider("values", 0) +
+//            ":00 - " + ($("#slider-range").slider("values", 0) + 4) + ":00 ");
+
+    $("#amount").text("02:00");
     // ----
     // 
     // 
@@ -931,11 +1109,11 @@ $(document).ready(function() {
 
         for (var i = 0; i < data.length; i++)
         {
-            world_hours_data[0].push({'x': i, 'y': parseInt(data[i]['UK'])});
-            world_hours_data[1].push({'x': i, 'y': parseInt(data[i]['US'])});
-            world_hours_data[2].push({'x': i, 'y': parseInt(data[i]['CEMEA'])});
-            world_hours_data[3].push({'x': i, 'y': parseInt(data[i]['Asia'])});
-            world_hours_data[4].push({'x': i, 'y': parseInt(data[i]['Mid_East'])});
+            world_hours_data[0].push({'x': i, 'y': parseInt(data[i]['UK_p'])});
+            world_hours_data[1].push({'x': i, 'y': parseInt(data[i]['US_p'])});
+            world_hours_data[2].push({'x': i, 'y': parseInt(data[i]['CEMEA_p'])});
+            world_hours_data[3].push({'x': i, 'y': parseInt(data[i]['Asia_p'])});
+            world_hours_data[4].push({'x': i, 'y': parseInt(data[i]['Mid_East_p'])});
             //
             temp_1 += parseInt(data[i]['UK_p']);
             temp_2 += parseInt(data[i]['US_p']);
@@ -1040,7 +1218,99 @@ $(document).ready(function() {
     // auto slider call
     setInterval(function() {
         // console.log('called');
-         auto_slider();
-    }, 20000);
+        // auto_slider();
+    }, 2000);
     //
+
+
+// window resize functionality
+    $(window).resize(function() {
+
+        $('.world-map-wrapper svg').remove();
+        var window_width = $(window).width();
+        $('.container_Right').width(window_width - 330);
+        switch (curr_hour_graph)
+        {
+            case 0:
+                drawWorldGraph();
+                break;
+            case 1:
+                drawUSGraph();
+                break;
+            case 2:
+                drawEuropeGraph();
+                break;
+            case 3:
+                drawUKGraph();
+                break;
+            case 4:
+                drawAfricaGraph();
+                break;
+            case 5:
+                drawAsiaGraph();
+                break;
+            default:
+                drawWorldGraph();
+                break;
+
+        }
+
+
+        //console.log('resize');
+//        //console.log($( window ).width());
+//       // var window
+//        //var calc_width = parseFloat((58 / 100) * $(window).width());]
+        var calc_width = $('#lineChart').width() - 10;
+        $('#slider').width(calc_width);
+        $('#slider-range').empty();
+        $("#slider-range").slider("destroy");
+        // range slider js
+        $("#slider-range").slider({
+            // range: true,
+            min: 0,
+            max: 1200,
+            values: [parseInt($('#range_start').val())],
+            slide: function(event, ui) {
+                //var h,m;
+                var start = parseInt(ui.values[ 0 ]);
+                var middle = start + 120;
+                var middle_h = pad(Math.floor(middle / 60));
+                var middle_m = pad(middle % 60);
+                var end = parseInt(ui.values[ 0 ]) + (4 * 60);
+                var start_h = pad(Math.floor(start / 60));
+                var start_m = pad(start % 60);
+                var end_h = pad(Math.floor(end / 60));
+                var end_m = pad(end % 60);
+
+                // $("#amount").text("" + start_h + ":" + start_m + " - " + (end_h) + ":" + end_m + "");
+                $("#amount").text("" + middle_h + ":" + middle_m);
+                $("#range_start").val(start);
+                $("#range_end").val(end);
+
+                drawHoursGraph();
+
+
+            }
+        });
+//
+
+        graph.configure({
+            'width': calc_width,
+            'height': 156
+        });
+        graph.update();
+        if (curr_hour_graph == 0)
+        {
+            var slide_width = $('#slider-range').width();
+            var map_width = Math.ceil((((16 / 100) * slide_width)));
+            console.log('map width', map_width, slide_width);
+            // $('.world-map-wrapper svg').css('right', map_width);
+
+        }
+    });
+
+
+
+
+//
 });

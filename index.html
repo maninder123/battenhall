@@ -51,8 +51,9 @@
 
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="width:100%;">
       <div class="padding-top-bottom-40">
+          <hr style="margin-top: 0px; margin-bottom: 0px; background-color: rgb(160, 44, 81); border-style: solid; height: 6px;">
         <div class="detail-content">
           <div class="financial_time_heading">
             <p>The Financial Times <strong class="text-upper-case">social data</strong></p>
@@ -104,9 +105,11 @@
 <input type="hidden" id="range_start" value="0">
 <input type="hidden" id="range_end" value="4">
 </p>
-<label id="amount"  style="position:relative;width:18%;border:0 solid #FEF1DE; color:#f6931f; font-weight:bold; background-color: #FEF1DE;"></label>
+<div id="slider" style="">
+<label id="amount"  style="position:relative;width:18%;border:0 solid #FEF1DE; color:#f6931f; font-weight:bold;"></label>
 <div id="slider-range" style="margin-left: 13px;"></div>
-          <div id="lineChart" style="min-height: 250px;"></div>
+</div>
+          <div id="lineChart" style=""></div>
         </div>
       </div>
     </div>
