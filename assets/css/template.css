@@ -179,10 +179,13 @@ p span
     margin-left: 40px;
 }
 
-
+.continent_p{
+    padding-left:10px;
+}
 
 p.subtitle{
     font-size: 14px;
+    width:283px;
 }
 
 .states {
