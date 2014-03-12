@@ -380,8 +380,23 @@ $(document).ready(function() {
 
         // d3.json("assets/json/uk.json", function(error, uk) {
         var uk = uk_data;
+        var collection1 = world_data;
+        var filter_collection = [];
+       // console.log(collection1.features);
+       $.each(collection1.features,function(k,v){
+          // console.log(k,v['properties']['name']);
+          //collection1.features.splice(0,1);
+          if(uk_countries_list.indexOf(v['properties']['name']) != -1)
+          {
+              console.log(v['properties']['name']);
+              filter_collection.push(v);
+          }
+           
+       });
+      // console.log(filter_collection,filter_collection.length);
         svg.selectAll(".subunit")
-                .data(topojson.feature(uk, uk.objects.subunits).features)
+                 .data(topojson.feature(uk, uk.objects.subunits).features)
+               // .data(collection1.features)
                 .enter().append("path")
                 /*.attr("class", function(d) {
                  return "subunit " + d.id;
@@ -742,8 +757,11 @@ $(document).ready(function() {
 //        else
 //            val = parseFloat(4.6 + (current_pos * 0.0));
         var left_val = parseFloat(current_pos * 5);
-        left_val = 3 + left_val;
+        left_val = 0 + left_val;
         //   console.log(left_val);
+        var new_left = $('.ui-slider-handle').css('left');
+       //  console.log(new_left);
+      // $('#amount').css('left',new_left);
         $('#amount').css({'left': left_val + '%'});
 
 
@@ -861,7 +879,7 @@ $(document).ready(function() {
             //width: $('#lineChart').width() - 10,
 
             width: calc_width,
-            height: 156,
+            height: 174,
             renderer: 'line',
             series: graph_data
         });
@@ -921,7 +939,7 @@ $(document).ready(function() {
         var end_m = pad(end % 60);
 
         // $("#amount").text("" + start_h + ":" + start_m + " - " + (end_h) + ":" + end_m + "");
-        $("#amount").text("" + middle_h + ":" + middle_m);
+        $("#amount").html("<span class='time_label'>Time:</span> " + middle_h + ":" + middle_m);
         // auto adjust label
         var current_pos = parseFloat($('#range_start').val() / 60);
 //        var val;
@@ -930,8 +948,10 @@ $(document).ready(function() {
 //        else
 //            val = parseFloat(4.6 + (current_pos * 0.0));
         var left_val = parseFloat(current_pos * 5);
-
-        $('#amount').css({'left': left_val + '%'});
+        var new_left = $('.ui-slider-handle').css('left');
+       // console.log(new_left);
+       //  $('#amount').css('left',new_left);
+       $('#amount').css({'left': left_val + '%'});
 
         drawHoursGraph();
 
@@ -1077,7 +1097,7 @@ $(document).ready(function() {
             var end_m = pad(end % 60);
 
             // $("#amount").text("" + start_h + ":" + start_m + " - " + (end_h) + ":" + end_m + "");
-            $("#amount").text("" + middle_h + ":" + middle_m);
+            $("#amount").html("<span class='time_label'>Time:</span> " + middle_h + ":" + middle_m);
             $("#range_start").val(start);
             $("#range_end").val(end);
 
@@ -1091,7 +1111,7 @@ $(document).ready(function() {
 //    $("#amount").text("" + $("#slider-range").slider("values", 0) +
 //            ":00 - " + ($("#slider-range").slider("values", 0) + 4) + ":00 ");
 
-    $("#amount").text("02:00");
+    $("#amount").append("<span class='time_label'>Time:</span> 02:00");
     // ----
     // 
     // 
@@ -1283,7 +1303,7 @@ $(document).ready(function() {
                 var end_m = pad(end % 60);
 
                 // $("#amount").text("" + start_h + ":" + start_m + " - " + (end_h) + ":" + end_m + "");
-                $("#amount").text("" + middle_h + ":" + middle_m);
+                $("#amount").html("<span class='time_label'>Time:</span> " + middle_h + ":" + middle_m);
                 $("#range_start").val(start);
                 $("#range_end").val(end);
 
@@ -1296,7 +1316,7 @@ $(document).ready(function() {
 
         graph.configure({
             'width': calc_width,
-            'height': 156
+            'height': 174
         });
         graph.update();
         if (curr_hour_graph == 0)

@@ -181,14 +181,14 @@ a:hover { text-decoration: underline; }
 div.audio-player {
   position: relative;
   width: 300px;
-  height: 70px;
+  height: 80px;
   margin: 0 auto;
-  background: #4c4e5a;
-  background: -webkit-linear-gradient(top, #4c4e5a 0%, #2c2d33 100%);
+  background: #000000;
+/*  background: -webkit-linear-gradient(top, #4c4e5a 0%, #2c2d33 100%);
   background: -moz-linear-gradient(top, #4c4e5a 0%, #2c2d33 100%);
   background: -o-linear-gradient(top, #4c4e5a 0%, #2c2d33 100%);
   background: -ms-linear-gradient(top, #4c4e5a 0%, #2c2d33 100%);
-  background: linear-gradient(top, #4c4e5a 0%, #2c2d33 100%);
+  background: linear-gradient(top, #4c4e5a 0%, #2c2d33 100%);*/
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -200,10 +200,17 @@ div.audio-player {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 10px;
-  color: #ececec;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  color: #ffffff;
+ // text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+ //text-shadow: 1px 1px 1px rgba(255,255,255,0.7);
 }
 
+.audio_detail{
+    padding-left: 0px !important;
+}
+.audio_spec{
+    padding-left: 0px !important;
+}
 .audio-player p.audio_spec {
   position: absolute;
   top: 28px;
@@ -227,7 +234,7 @@ div.audio-player {
 }
 
 .audio-player .audio_time{
-  font-size: 10px;
+  font-size: 7.65px;
   color: #C0C0C0;
 
 }
@@ -245,7 +252,8 @@ div.audio-player {
   height: 34px;
   top: 22px;
   left: 7px;
-  background: transparent url('playpause.png') 0 0 no-repeat;
+  background: transparent url('playpause4.png') 0 0 no-repeat;
+ //background: transparent url('arrow.png') 0 0 no-repeat;
 }
 .mejs-controls .mejs-pause button { background-position: 0 -35px; }
  
