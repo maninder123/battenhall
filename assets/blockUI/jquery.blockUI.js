@@ -83,6 +83,7 @@
 		$.blockUI.defaults = {
 			// message displayed when blocking (use null for no message)
 			message:  '<div style="background: none;"><img src="./assets/images/ajax-loader.gif" alt="Loading. Please wait.." /></div>',
+			//message:  '<div style="background: none;"><img src="./assets/images/pop_edit.jpg" alt="" /></div>',
 
 			title: null,		// title string; only used when theme == true
 			draggable: true,	// only used when theme == true (requires jquery-ui.js to be loaded)

@@ -51,6 +51,9 @@
 
   </head>
   <body>
+         <div id="dialog" title="Basic dialog">
+          <img id="load_img" src="assets/images/pop_edit.jpg" />
+</div>
     <div class="container" style="width:100%;">
       <div class="padding-top-bottom-40">
           <hr style="margin-top: 0px !important; margin-bottom: 0px !important; background-color: rgb(160, 44, 81) !important; border-style: none !important; height: 6px;width:100% !important;margin: 0px !important;">
@@ -96,25 +99,30 @@
         <!--<input id="animate" type="checkbox" checked>-->
 
         <!--<h1 class="location-name"></h1>-->
-        <div class="container_Right">
+        <div class="container_Right_map">
           <div class="world-map-wrapper">
 
 
           </div>
-            <p>
+
+        </div>
+        <div class="container_Right">
+                       <p>
 <!--<label for="amount">Price range:</label>-->
 
 <input type="hidden" id="range_start" value="0">
 <input type="hidden" id="range_end" value="4">
 </p>
 <div id="slider" style="">
-    <label id="amount"  style="position:relative;left:0.4%;font-size: 13px;width:9%;border:0 solid #FEF1DE; font-weight:bold;margin-left:0.5%;"></label>
+    <label id="amount"  style="position:relative;left:0.4%;font-size: 13px;width:100px !important;border:0 solid #FEF1DE; font-weight:bold;margin-left:0.5%;"></label>
 <div id="slider-range" style="margin-left: 13px;height:6px;"></div>
 </div>
-          <div id="lineChart" style=""></div>
+          <div id="lineChart" style=""></div> 
         </div>
+        
       </div>
     </div>
+   
 
     <!--    Page specific javascript    -->
     <!--<script src="assets/lib/d3.geo.projection.v0.min.js"></script>-->

@@ -11,10 +11,15 @@ body {
     font-family:"Times New Roman", Times, serif;
 }
 .container{
-    width: 1100px;
+   //width: 1100px;
+    min-width: 1100px;
     // background: #FEF1DE;
     background: #FEF6EB;
     //background:#ffffff;
+    overflow-x:auto; 
+    
+    position:relative;
+    left:-200px;
 }
 .world-map-wrapper svg
 {
@@ -36,11 +41,39 @@ svg circle
     float:left;
     background: #FEF1DE;
     //padding-left: 5px;
+    
+    position: relative;
+    left:-350px;
 }
-
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+.ui-dialog-titlebar
+{
+ display: none;   
+}
+.ui-widget-content
+{
+    background:none !important;
+    z-index: 100000000000 !important;
+}
 .container_Right{
     //width: 765px;
     width: 70%;
+   
+    float:left;
+    padding-top:30px; 
+    display: none;
+    
+   // position:relative;
+   // bottom: -150px;
+}
+
+.container_Right_map{
+    //width: 765px;
+     min-width: 760px !important;
+    // overflow-x: scroll;
+    //width: 66%;
     float:left;
     padding-top:30px; 
 }
@@ -64,7 +97,7 @@ svg circle
 }
 .ui-slider-handle{
     background:#e97174 !important;
-    width:9% !important;
+    width:70px !important;
     margin-top:-2px !important;
 }
 .world-map-wrapper{
