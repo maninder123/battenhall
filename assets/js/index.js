@@ -556,8 +556,12 @@ $(document).ready(function() {
                 });
             }
         });
-        //console.log('new arr', obj_new);
-        var count = 0;
+      //  console.log('new arr', obj_new);
+      
+      // removing data
+          //obj_new.geometries.splice(54,1);
+        //  obj_new.geometries.splice(58,1);
+            // console.log('new arr 2', obj_new);
         svg.selectAll(".region")
                 .data(topojson.feature(europe, obj_new).features)
                 .enter()
@@ -566,9 +570,9 @@ $(document).ready(function() {
                  return !isNaN(parseFloat(data[d.properties.NUTS_ID]));
                  })*/
                 .attr("id", function(d) {
-                    console.log(d);
-                    count++;
-                    return 'id_' + count;
+                  
+                    console.log(d.properties.name);
+                    return 'id_' + d.properties.brk_name;
                 })
                 .attr("class", "region")
                 .attr("d", path)
@@ -578,7 +582,10 @@ $(document).ready(function() {
                     return '#BBBBBB';
                 });
         $.unblockUI();
-
+        
+        //ignore region
+        $('#id_Russia').hide();
+        $('#id_Svalbard').hide();
         // });
     }
 
@@ -973,7 +980,7 @@ $(document).ready(function() {
         //block interval
 //        if(curr_min >=10)
 //         clearInterval(time_interval);
-        console.log('curr min', curr_min);
+       // console.log('curr min', curr_min);
 
         var curr_start_point = parseInt($('#range_start').val());
         var curr_end_point = parseInt($('#range_end').val());

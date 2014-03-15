@@ -416,3 +416,13 @@ hr
 }
 //
 
+// Ignore region
+#id_Russia
+{
+    display: none;
+}
+#id_Svalbard
+{
+    display: none;
+}
+
