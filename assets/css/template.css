@@ -82,7 +82,14 @@ svg circle
     // overflow-x: scroll;
     //width: 66%;
     float:left;
-    padding-top:30px; 
+    padding-top:30px;
+    //position: relative;
+   // left: -100px;
+}
+.region
+{
+    stroke:1px solid #F3E6D6 !important;
+    fill:#FFF0DD !important;
 }
 .time_label
 {
@@ -219,7 +226,8 @@ p span
   width: 960px;
 }*/
 .padding-top-bottom-40{
-    margin: 40px 0;
+   // margin: 40px 0;
+    margin: 0 0;
     border: 0px solid;
 }
 .margin-left-40{

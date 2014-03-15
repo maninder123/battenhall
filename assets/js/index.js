@@ -303,7 +303,7 @@ $(document).ready(function() {
             for (var name in css)
                 frameElement.style[name] = css[name] + 'px';
         }
-        $.unblockUI();
+        //$.unblockUI();
 //        $(".container").animate({position:'relative',left:'0px'});
 //       $(".detail-content").animate({position:'relative',left:'0px'},'',function(){
 //           $(".container_Right").show().animate({display:'block'});
@@ -379,18 +379,10 @@ $(document).ready(function() {
                 .data(topojson.feature(us, us.objects.states).features)
                 .enter().append("path")
                 .attr("d", path)
-                .style("fill", function(d) {
-                    if (color(rateById[d.id])) {
-                        // return color(rateById[d.id]);
-                        return '#BBBBBB';
-                    } else {
-                        return '#BBBBBB';
-                    }
-                    /* if (color(d.id)) {
-                     return color(d.id);
-                     } else {
-                     return '#BBBBBB';
-                     }*/
+               .style("stroke", "#F3E6D6")
+                .style("stroke-width", 1)
+                .style('fill', function(d) {
+                    return '#FFF0DD';
                 });
 
 //      svg.append("path")
@@ -399,7 +391,7 @@ $(document).ready(function() {
 //              }))
 //              .attr("class", "states")
 //              .attr("d", path);
-        $.unblockUI();
+        //$.unblockUI();
         //  }
     }
 
@@ -457,12 +449,12 @@ $(document).ready(function() {
                  })*/
                 .attr("class", "region")
                 .attr("d", path)
-                .style("stroke", "#fff")
-                .style("stroke-width", 0.2)
+                .style("stroke", "#F3E6D6")
+                .style("stroke-width", 1)
                 .style('fill', function(d) {
-                    return '#BBBBBB';
+                    return '#FFF0DD';
                 });
-        $.unblockUI();
+        //$.unblockUI();
         //  });
     }
 
@@ -576,12 +568,12 @@ $(document).ready(function() {
                 })
                 .attr("class", "region")
                 .attr("d", path)
-                .style("stroke", "#fff")
-                .style("stroke-width", 0.2)
-                .style("fill", function(d) {
-                    return '#BBBBBB';
+                .style("stroke", "#F3E6D6")
+                .style("stroke-width", 1)
+                .style('fill', function(d) {
+                    return '#FFF0DD';
                 });
-        $.unblockUI();
+        //$.unblockUI();
         
         //ignore region
         $('#id_Russia').hide();
@@ -625,8 +617,10 @@ $(document).ready(function() {
                 .enter().append("path")
                 .attr("class", 'maninder')
                 .attr("d", path)
-                .style("fill", function(d) {
-                    return '#BBBBBB';
+               .style("stroke", "#F3E6D6")
+                .style("stroke-width", 1)
+                .style('fill', function(d) {
+                    return '#FFF0DD';
                 });
 
         svg.append("path")
@@ -635,13 +629,13 @@ $(document).ready(function() {
                 }))
                 .attr("d", path)
                 .attr("class", "subunit-boundary")
-                .style("stroke", "#fff")
-                .style("stroke-width", 0.2)
-                .style("fill", function(d) {
-                    return '#BBBBBB';
+               .style("stroke", "#F3E6D6")
+                .style("stroke-width", 1)
+                .style('fill', function(d) {
+                    return '#FFF0DD';
                 });
 
-        $.unblockUI();
+        //$.unblockUI();
         // });
     }
 
@@ -680,8 +674,10 @@ $(document).ready(function() {
                 .enter().append("path")
                 .attr("class", 'maninder')
                 .attr("d", path)
-                .style("fill", function(d) {
-                    return '#BBBBBB';
+                .style("stroke", "#F3E6D6")
+                .style("stroke-width", 1)
+                .style('fill', function(d) {
+                    return '#FFF0DD';
                 });
 
         svg.append("path")
@@ -690,13 +686,13 @@ $(document).ready(function() {
                 }))
                 .attr("d", path)
                 .attr("class", "subunit-boundary")
-                .style("stroke", "#fff")
-                .style("stroke-width", 0.2)
-                .style("fill", function(d) {
-                    return '#BBBBBB';
+                .style("stroke", "#F3E6D6")
+                .style("stroke-width", 1)
+                .style('fill', function(d) {
+                    return '#FFF0DD';
                 });
 
-        $.unblockUI();
+        //$.unblockUI();
         // });
     }
 
@@ -761,7 +757,7 @@ $(document).ready(function() {
 
 
     /*  blocking the UI by displaying a loading image on document ready */
-    $.blockUI();
+    //$.blockUI();
 
     /**
      * Calling the function to draw the world graph on document loading time.
@@ -905,6 +901,7 @@ $(document).ready(function() {
         }
         else
         {
+            $('.world-map-wrapper').css({'left': '0%'});
             for (var i = range_start; i <= range_end; i++)
             {
                 data[0].push(data_real[0][i]);
@@ -1081,7 +1078,7 @@ $(document).ready(function() {
      */
     $('span.label').on('click', function() {
         /*  blocking the UI by displaying a loading image   */
-        $.blockUI();
+        //$.blockUI();
         var countryName = $(this).attr('id');
         $('span.label').removeClass('label-info');
         $(this).addClass('label-info');
