@@ -1314,7 +1314,7 @@ $(document).ready(function() {
         // console.log('called');
         curr_min++;
         auto_slider();
-    }, 200);
+    }, 1000);
     //
 
     function center_globe()
