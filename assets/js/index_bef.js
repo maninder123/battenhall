@@ -38,7 +38,7 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
     var path = d3.geo.path()
             .projection(projection);
 
-    var svg = d3.select(".world-map-wrapper").append("svg:svg")
+    var svg = d3.select("#d3_map_wrapper").append("svg:svg")
             .attr("width", 750)
             .attr("height", 500)
             .on("mousedown", mousedown);
@@ -190,7 +190,7 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
     var path = d3.geo.path()
             .projection(projection);
 
-    var svg = d3.select('.world-map-wrapper')
+    var svg = d3.select('#d3_map_wrapper')
             .append("svg")
             .attr("width", width)
             .attr("height", height);
@@ -261,7 +261,7 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
     var path = d3.geo.path()
             .projection(projection);
 
-    var svg = d3.select('.world-map-wrapper')
+    var svg = d3.select('#d3_map_wrapper')
             .append("svg")
             .attr("width", width)
             .attr("height", height);
@@ -306,7 +306,7 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
     var path = d3.geo.path()
             .projection(projection);
 
-    var svg = d3.select('.world-map-wrapper')
+    var svg = d3.select('#d3_map_wrapper')
             .append("svg")
             .attr("width", width)
             .attr("height", height);
@@ -417,7 +417,7 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
     var path = d3.geo.path()
             .projection(projection);
 
-    var svg = d3.select('.world-map-wrapper').append("svg")
+    var svg = d3.select('#d3_map_wrapper').append("svg")
             .attr("width", width)
             .attr("height", height);
 
@@ -471,7 +471,7 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
     var path = d3.geo.path()
             .projection(projection);
 
-    var svg = d3.select('.world-map-wrapper').append("svg")
+    var svg = d3.select('#d3_map_wrapper').append("svg")
             .attr("width", width)
             .attr("height", height);
 
@@ -577,7 +577,7 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
    */
   drawPieChart();
   drawWorldGraph();
-   $('.world-map-wrapper svg').css('right','100px');
+   $('#d3_map_wrapper svg').css('right','100px');
 //drawAfricaGraph()
   // drawAsiaGraph()
 //  drawUKGraph()
@@ -592,55 +592,55 @@ var non_countries = ['Antarctica','French Southern and Antarctic Lands','Austral
    * @access      public
    * @author      Maninder Singh  <manindersingh221@gmail.com>
    */
-  $('span.label').on('click', function() {
+  $('li.label').on('click', function() {
     /*  blocking the UI by displaying a loading image   */
     $.blockUI();
     var countryName = $(this).attr('id');
-    $('span.label').removeClass('label-info');
+    $('li.label').removeClass('label-info');
     $(this).addClass('label-info');
     switch (countryName)
     {
       case 'us':
         transition();
-        $('.world-map-wrapper, .location-name').empty();
+        $('#d3_map_wrapper, .location-name').empty();
         drawUSGraph();
-        $('.world-map-wrapper svg').css('right','');
+        $('#d3_map_wrapper svg').css('right','');
         break;
       case 'europe':
         transition();
-        $('.world-map-wrapper, .location-name').empty();
+        $('#d3_map_wrapper, .location-name').empty();
         drawEuropeGraph();
-        $('.world-map-wrapper svg').css('right','');
+        $('#d3_map_wrapper svg').css('right','');
         break;
       case 'uk':
         transition();
-        $('.world-map-wrapper, .location-name').empty();
+        $('#d3_map_wrapper, .location-name').empty();
         drawUKGraph();
-        $('.world-map-wrapper svg').css('right','');
+        $('#d3_map_wrapper svg').css('right','');
         break;
       case 'africa':
         transition();
-        $('.world-map-wrapper, .location-name').empty();
+        $('#d3_map_wrapper, .location-name').empty();
         drawAfricaGraph();
-        $('.world-map-wrapper svg').css('right','');
+        $('#d3_map_wrapper svg').css('right','');
         break;
       case 'asia':
         transition();
-        $('.world-map-wrapper, .location-name').empty();
-        //$('.world-map-wrapper').addClass('text-center').append('<h3>Map coming soon.</h3>');
+        $('#d3_map_wrapper, .location-name').empty();
+        //$('#d3_map_wrapper').addClass('text-center').append('<h3>Map coming soon.</h3>');
         drawAsiaGraph();
         break;
       case 'world':
         transition();
-        $('.world-map-wrapper, .location-name').empty();
+        $('#d3_map_wrapper, .location-name').empty();
         drawWorldGraph();
-        $('.world-map-wrapper svg').css('right','100px');
+        $('#d3_map_wrapper svg').css('right','100px');
         break;
       default:
         transition();
-        $('.world-map-wrapper, .location-name').empty();
+        $('#d3_map_wrapper, .location-name').empty();
         drawWorldGraph();
-        $('.world-map-wrapper svg').css('right','100px');
+        $('#d3_map_wrapper svg').css('right','100px');
         break;
     }
   });

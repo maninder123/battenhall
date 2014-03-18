@@ -15,7 +15,7 @@ body {
   background: #FEF1DE;
  //background:#ffffff;
 }
-.world-map-wrapper svg
+#d3_map_wrapper svg
 {
  // background:#ffffff;
  position: relative;
@@ -26,7 +26,7 @@ svg circle
   background:#ffffff !important;
   fill:#ffffff !important;
 }
-.detail-content{
+#info_container{
   // margin: 100px 0 100px 60px;
   border-right: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
@@ -35,12 +35,12 @@ svg circle
   float:left;
 }
 
-.container_Right{
+#timeline_wrapper{
   width: 765px;
   float:left;
 }
 
-.world-map-wrapper{
+#d3_map_wrapper{
   /*margin-top: 80px;*/
   width: 100%;
   //float: left;
@@ -67,12 +67,12 @@ strong.text-upper-case{
 p.title{
   font-size: 26px; 
 }
-span.label{
+li.label{
   padding: 5px 20px;
   margin-right: 5px;
   //background-color:#E1E1BD; 
 }
-span.label:hover{
+li.label:hover{
   cursor: pointer;
 }
 /*

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FinancialTimes</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!--    Required Stylesheet     -->
+    <!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css"/> -->
+    <!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap-responsive.css"/> -->
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/jquery_ui.css"/> -->
+
+    <link rel="stylesheet" type="text/css" href="assets/css/template.css"/>
+<!--     <link href="assets/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <link href="assets/css/print.css" media="print" rel="stylesheet" type="text/css" />
+    <!--[if IE]>
+        <link href="assets/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <![endif]-->
+
+    <!--    Required Javascript Libraries   -->
+    <script type="text/javascript" src="assets/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="assets/lib/jquery_ui.js"></script>
+    <script type="text/javascript" src="assets/lib/d3.v3.min.js"></script>
+    <script type="text/javascript" src="assets/lib/queue.v1.min.js"></script>
+    <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script type="text/javascript" src="assets/lib/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="assets/blockUI/jquery.blockUI.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" media="all" href="assets/audioPlay/css/styles.css">
+    <!--<script type="text/javascript" src="assets/audioPlay/js/jquery-1.10.2.min.js"></script>-->
+    <script type="text/javascript" src="assets/audioPlay/js/mediaelement-and-player.min.js"></script>
+    <link href="assets/src/nv.d3.css" rel="stylesheet" type="text/css">
+
+    <!--    <script src="assets/lib/d3.v3.js"></script>-->
+    <script src="assets/lib/nv.d3.js"></script>
+    <script src="assets/src/models/legend.js"></script>
+    <script src="assets/src/models/pie.js"></script>
+    <script src="assets/src/models/pieChart.js"></script>
+    <script src="assets/src/utils.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="assets/css/rickshaw.css">
+    <script src="assets/lib/rickshaw.js"></script>
+
+    <script src="assets/lib/d3.geo.js"></script>
+    <script>
+      $(function() {
+        $('#audio-player').mediaelementplayer({
+          alwaysShowControls: true,
+          features: ['playpause', 'progress', 'volume'],
+          audioVolume: 'horizontal',
+          audioWidth: 300,
+          audioHeight: 70,
+          iPadUseNativeControls: true,
+          iPhoneUseNativeControls: true,
+          AndroidUseNativeControls: true
+        });
+      });
+    </script>
+
+  </head>
+  <body>
+
+    <div id="dialog" title="Basic dialog" style="width: 100%;">
+      <img id="load_img" src="assets/images/pop_edit.jpg" />
+    </div>
+
+    <!-- <hr style="margin-top: 0px !important; margin-bottom: 0px !important; background-color: rgb(160, 44, 81) !important; border-style: none !important; height: 6px;width:100% !important;margin: 40px 0 0 0 !important;"> -->
+
+    <div class="container">
+      <div class="info_container">
+        <div class="financial_time_heading">
+          <p>The Financial Times <strong class="text-upper-case">social data</strong></p>
+          
+        </div>
+        <div>
+          <p class="title">Who's Reading?</p>
+        </div>
+
+        <p class="subtitle">Your interactive guide to who's reading what how and where.</p>
+        
+        <p class="continent_labels">
+          <span class="label" id="europe">Europe (excluding the UK)</span>
+          <span class="label" id="uk">The UK</span>
+        </p>
+        <p class="continent_labels">
+          <span class="label" id="us">The Americas</span>
+          <span class="label" id="africa">Africa & Middle East</span>
+        </p>
+        <p class="continent_labels">
+          <span class="label" id="asia">Asia</span>
+          <span class="label label-info" id="world">The World</span>
+        </p>
+        <hr/>
+        <svg id="test1" class="data_piechart"></svg>
+        <div class="row-fluid">
+          <div class="audio-player">
+            <h2>EDITOR'S CHOICE <span class='audio_time'>13.56 min </span></h2>
+            <p class='audio_spec'>Jan 19: US foregin policy under Obama</p>
+            <p class='audio_detail'>129830 Mobile plays</p>
+            <audio id="audio-player" src="assets/audioPlay/media/evidence-song.mp3" type="audio/mp3" controls="controls"></audio>
+          </div><!-- @end .audio-player -->
+        </div>
+        </div>
+
+        <!--    World Map on Globe Wrapper  -->
+        <!--                    <div><label for="animate">animate:</label> --->
+        <!--<input id="animate" type="checkbox" checked>-->
+
+        <!--<h1 class="location-name"></h1>-->
+        <div class="timeline_wrapper_map">
+          <div class="d3_map_wrapper">
+
+
+          </div>
+
+        </div>
+        <div class="timeline_wrapper">
+                       <p>
+<!--<label for="amount">Price range:</label>-->
+
+<input type="hidden" id="range_start" value="0">
+<input type="hidden" id="range_end" value="4">
+</p>
+<div id="slider" style="">
+    <label id="amount"  style="position:relative;left:0.4%;font-size: 13px;width:100px !important;border:0 solid #FEF1DE; font-weight:bold;margin-left:0.5%;"></label>
+<div id="slider-range" style="margin-left: 13px;height:6px;"></div>
+</div>
+          <div id="lineChart" style=""></div> 
+        </div>
+        
+      </div>
+    </div>
+   
+
+    <!--    Page specific javascript    -->
+    <!--<script src="assets/lib/d3.geo.projection.v0.min.js"></script>-->
+    <script type="text/javascript" src="assets/js/index.js"></script>
+    <script>
+
+    </script>
+  </body>
+</html>

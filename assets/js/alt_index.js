@@ -2,9 +2,9 @@ var graph;
 $(document).ready(function() {
     $("#dialog").dialog();
     $('.ui-widget-content').css('background', 'none');
-    //   $(".info_container").hide();
-    // $(".info_container").animate({display:'none'});
-    // $(".info_container").animate({position:'relative',left:'-350px'});
+    //   $("#info_container").hide();
+    // $("#info_container").animate({display:'none'});
+    // $("#info_container").animate({position:'relative',left:'-350px'});
     var uk_data, asia_data, europe_data, world_data, america_data_1, america_data_2;
     var us_hours_data = [[], [], [], []];
     var uk_hours_data = [[], [], [], []];
@@ -14,11 +14,15 @@ $(document).ready(function() {
     var world_hours_data = [[], [], [], [], []];
     var percent_data = [[], [], [], [], []];
     var curr_hour_graph = 0;
+
+    var world_map_width = 820,
+        world_map_height = 500;
     // var graph = new Object();
 
-    var non_countries = ['Antarctica', 'French Southern and Antarctic Lands', 'Australia', 'Fiji', 'Kiribati', 'Marshall Islands', 'Micronesia', 'Nauru', 'New Zealand', 'Palau', 'Papua New Guinea', 'Samoa', 'Solomon Islands', 'Tonga', 'Tuvalu', 'Vanuatu'];
+    var non_countries = ['Antarctica', 'Greenland', 'French Southern and Antarctic Lands'];
     var calc_widthh = parseFloat((58 / 100) * $(window).width());
     // countries and countries allocating
+
     var europe_countries_list = ['Republic of Serbia'];
     var uk_countries_list = ['England', 'Scotland', 'Wales', 'Northern Ireland', 'United Kingdom'];
     var asia_countries_list = [];
@@ -28,32 +32,35 @@ $(document).ready(function() {
     var curr_min = 0;
     var time_interval;
 
-    var window_width = $(window).width();
-    var adjust_width = window_width - 366;
+    // var window_width = $(window).width();
+    var adjust_width = $('#map_container').width()
     //$('#timeline_wrapper').width(window_width - 340);
     // $('#timeline_wrapper').css({'width': adjust_width + 'px'});
     // $('#lineChart').width(6 * $('#timeline_wrapper').width());
     //$('#timeline_wrapper_map').width(window_width - 362);
 
-    $('#load_img').on('click', function() {
-        // $(this).hide();
-        $('.ui-dialog').animate({left: '-300px'}, 500, function() {
-            $(".container").animate({position: 'relative', left: '0px'});
-            $(".info_container").animate({position: 'relative', left: '0px'}, '', function() {
-                $("#timeline_wrapper").show().animate({display: 'block'});
-                center_globe();
-            });
-            //  $('.ui-dialog').hide('slide', {direction: 'left'},1000);
+    $('#load_img').on(
+      "click", function() {
+        var $d3_map_wrapper = $('#d3_map_wrapper'),
+            h = $('#timeline_wrapper').height(),
+            conH = $('#container').height();
+        var newMargV = ((conH - ( $d3_map_wrapper.height() + h + (parseInt($d3_map_wrapper.css('paddingTop')) * 2))) / 2 );    
 
-            // $("#timeline_wrapper").animate({position:'relative',bottom:'0px'},"slow");
+        $("#info_container").show();
+        $("#info_container").animate({position: 'relative', left: '0px', marginRight: '0px'}, 500, 'easeOutBack', function() {
+          $('#loading_overlay').fadeOut(500, function() {
+
+            console.log(newMargV)
+            $d3_map_wrapper.animate({
+                  marginTop: newMargV,
+                  marginBottom: newMargV,
+                  opacity: 1},
+                  300, 'easeOutBack' );
+              });
         });
-        //  $('.ui-dialog').hide('slide', {direction: 'left'});
-        // alert('ff');
-        //$('#load_img').animate({display:'none'});
-        //  $('#load_img').animate({position:'absolute',left:'-300px'});
-        // $(this).animate({position:'absolute',left:'-300px'});
-    });
-// separating countries , continents vice
+      });
+
+    // separating countries , continents vice
     $.ajax({
         url: 'assets/json/countries.json',
         dataType: 'json'
@@ -88,16 +95,20 @@ $(document).ready(function() {
         total_list = [uk_countries_list, americas_countries_list, europe_countries_list, asia_countries_list, africa_countries_list];
         //  console.log();
         // world graph plotting
-        d3.json("assets/json/world-countries.json", function(error, data) {
+        d3.json("assets/json/world-countries2.json", function(error, data) {
             world_data = data;
             if (world_data)
             {
                 // calling world map graph plot
                 drawWorldGraph();
                 var slide_width = $('#slider-range').width();
+
+/////////////// possibly a redundent variable
                 var map_width = Math.ceil((((16 / 100) * slide_width)));
+                console.log("map width: " + map_width)
+
                 //console.log('map width',map_width,slide_width);
-                //  $('#d3_map_wrapper svg').css('right', map_width);
+                 // $('#d3_map_wrapper svg').css('right', map_width);
 
                 var range_start = parseInt($('#range_start').val());
                 var middle_start = range_start + 120;
@@ -120,8 +131,8 @@ $(document).ready(function() {
 
     });
 
+    $('#slider').width(adjust_width - 40);
 
-    $('#slider').width(window_width - 330);
     /**
      * This function is used to end the d3 tansition.
      * 
@@ -130,37 +141,42 @@ $(document).ready(function() {
      * @access      public
      * @author      Maninder Singh  <manindersingh221@gmail.com>
      */
+
     function transition() {
         d3.transition()
                 .transition()
                 .each("end", transition);
     }
 
+
     /**
      * This function is used to plot the world map with tour transition effect.
      * 
-     * @version     0.0.1
+     * @version     0.0.2
      * @since       0.0.1
      * @access      public
      * @author      Maninder Singh  <manindersingh221@gmail.com>
      */
+
+
+
     function drawWorldGraph() {
-        var feature // eventually: all svg paths (countries) of the world
-                , toggle; // animation on/off control
+
+        var width = 500,
+            height = 500;
+
+
+        var feature   // eventually: all svg paths (countries) of the world
+            , toggle; // animation on/off control
         var projection = d3.geo.azimuthal()
-                .scale(250)
-                .origin([-71.03, 0])
-                .mode("orthographic");
+        .scale(250)
+        .origin([23, 0])
+        .translate([width / 2, height / 2])
+        .mode("orthographic");
 
-        var velocity = .01,
-                then = Date.now();
-
-//        var projection = d3.geo.orthographic()
-//    .scale(250 - 2)
-//    .translate([250, 250])
-//    .clipAngle(90);
-//    
-        // .translate([400, 400]);
+        var speed = 0.2,
+            velocity = 1,
+            then = Date.now();
 
         var circle = d3.geo.greatCircle()
                 .origin(projection.origin());
@@ -169,14 +185,18 @@ $(document).ready(function() {
                 .projection(projection);
 
         // var width_parent = $('#timeline_wrapper').width();
+        var styling = "width: " + width + "; " + 
+                      "height: " + height + "; ";
+
         var svg = d3.select("#d3_map_wrapper").append("svg:svg")
-                .attr("width", 750)
-                .attr("height", 500)
+                .attr("width", width)
+                .attr("height", height)
+                .attr("style", styling)
                 .on("mousedown", mousedown);
 
         svg.append("circle")
-                .attr("cx", 750 / 2 + 100)
-                .attr("cy", 500 / 2)
+                .attr("cx", width / 2)
+                .attr("cy", height / 2)
                 .attr("r", 250)
                 .attr("fill", "#ffffff");
 
@@ -197,7 +217,7 @@ $(document).ready(function() {
                     {
                         if ($.inArray(name, total_list[i]) > -1)
                         {
-                            //console.log('found',name);
+                            // console.log('found',name);
                             append = i;
                             break;
 
@@ -238,17 +258,10 @@ $(document).ready(function() {
                 var origin = projection.origin();
                 //  origin = [origin[0] + 0.4, origin[1] + 0.1];
                 //   origin = [origin[0] + 20, origin[1] + 2];
-                origin = [origin[0] + 0.2, origin[1] + 0];
+                origin = [origin[0] + (speed * velocity) , origin[1] + 0];
                 projection.origin(origin);
                 circle.origin(origin);
                 refresh();
-
-
-//                var angle = velocity * (Date.now() - then);
-//    projection.rotate([angle,0,0]);
-//    svg.selectAll("path")
-//      .attr("d", path.projection(projection));
-
 
                 return done;
             });
@@ -305,7 +318,7 @@ $(document).ready(function() {
         }
         //$.unblockUI();
 //        $(".container").animate({position:'relative',left:'0px'});
-//       $(".info_container").animate({position:'relative',left:'0px'},'',function(){
+//       $("#info_container").animate({position:'relative',left:'0px'},'',function(){
 //           $("#timeline_wrapper").show().animate({display:'block'});
 //          // $("#timeline_wrapper").animate({position:'relative',bottom:'0px'},"slow");
 //       });
@@ -339,7 +352,11 @@ $(document).ready(function() {
      */
     function drawUSGraph() {
         var width = 700,
-                height = 500;
+            height = 500;
+
+        var styling = "width: " + width + "; " + 
+                      "height: " + height + "; ";;
+
 
         var projection = d3.geo.albersUsa()
                 .scale(800)
@@ -356,7 +373,8 @@ $(document).ready(function() {
         var svg = d3.select('#d3_map_wrapper')
                 .append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("style", styling);
 
         // queue()
         //         .defer(d3.json, "assets/json/us-10m.json")
@@ -407,7 +425,10 @@ $(document).ready(function() {
     function drawUKGraph() {
 
         var width = 700,
-                height = 500;
+            height = 500;
+
+        var styling = "width: " + width + "; " + 
+                      "height: " + height + "; ";;
 
         var projection = d3.geo.albers()
                 .origin([-10, 55.4])
@@ -422,7 +443,8 @@ $(document).ready(function() {
         var svg = d3.select('#d3_map_wrapper')
                 .append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("style", styling);
 
         // d3.json("assets/json/uk.json", function(error, uk) {
         var uk = uk_data;
@@ -470,7 +492,10 @@ $(document).ready(function() {
     function drawEuropeGraph() {
 
         var width = 700,
-                height = 500;
+            height = 500;
+
+        var styling = "width: " + width + "; " + 
+                      "height: " + height + "; ";;
 
         var projection = d3.geo.albers()
                 .origin([14.9, 60.0])
@@ -483,7 +508,8 @@ $(document).ready(function() {
         var svg = d3.select('#d3_map_wrapper')
                 .append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("style", styling);
 
         //  d3.json("assets/json/continent_Europe_subunits.json", function(error, europe) {
         europe = europe_data;
@@ -593,7 +619,11 @@ $(document).ready(function() {
     function drawAfricaGraph() {
 
         var width = 700,
-                height = 500;
+                height = 500,
+                $container = $('#container');
+
+        var styling = "width: " + width + "; " + 
+                      "height: " + height + "; ";;
 
         var projection = d3.geo.mercator()
                 //.center([0, -10])
@@ -606,7 +636,8 @@ $(document).ready(function() {
 
         var svg = d3.select('#d3_map_wrapper').append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("style", styling);
 
         //   d3.json("assets/json/africa.json", function(error, asia) {
 
@@ -651,7 +682,11 @@ $(document).ready(function() {
     function drawAsiaGraph() {
 
         var width = 700,
-                height = 500;
+                height = 500,
+                $container = $('#container');
+
+        var styling = "width: " + width + "; " + 
+                      "height: " + height + "; ";;
 
         var projection = d3.geo.albers()
                 .origin([100, 35])
@@ -664,7 +699,8 @@ $(document).ready(function() {
 
         var svg = d3.select('#d3_map_wrapper').append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("style", styling);
 
         // d3.json("assets/json/asia.json", function(error, asia) {
         asia = asia_data;
@@ -724,7 +760,7 @@ $(document).ready(function() {
 
         nv.addGraph(function() {
             var width = 300,
-                    height = 300;
+                height = 300;
 
             var chart = nv.models.pieChart()
                     .x(function(d) {
@@ -733,17 +769,17 @@ $(document).ready(function() {
                     .y(function(d) {
                         return d.y
                     })
-                    .color(d3.scale.category10().range())
+                    .color(['rgb(246,239,247)','rgb(189,201,225)','rgb(103,169,207)','rgb(28,144,153)','rgb(1,108,89)'])
                     .width(width)
-                    .height(height).showLegend(false);
-            //.showLabels(false);
+                    .height(height)
+                    .showLegend(false)
+                    .showLabels(false);
 
             d3.select("#test1")
                     .datum(testdata)
-                    .transition().duration(1200)
+                    .transition(500).duration(1200)
                     .attr('width', width)
                     .attr('height', height)
-                    //.showLabels(false)
                     .call(chart);
 
 
@@ -853,27 +889,27 @@ $(document).ready(function() {
             }
             var graph_data = [
                 {
-                    color: "#c05020",
+                    color: "rgb(246,239,247)'",
                     data: data[0],
                     name: 'UK'
                 },
                 {
-                    color: "skyblue",
+                    color: "rgb(189,201,225)",
                     data: data[1],
                     name: 'US'
                 },
                 {
-                    color: "black",
+                    color: "rgb(103,169,207)",
                     data: data[2],
                     name: 'CEMEA'
                 },
                 {
-                    color: "lightgreen",
+                    color: "rgb(28,144,153)",
                     data: data[3],
                     name: 'ASIA'
                 },
                 {
-                    color: "lightblue",
+                    color: "rgb(1,108,89)",
                     data: data[4],
                     name: 'MID EAST'
                 }
@@ -972,6 +1008,7 @@ $(document).ready(function() {
      * @access      public
      * @author      Maninder Singh  <manindersingh221@gmail.com> 
      */
+
     function auto_slider()
     {
         //block interval
@@ -1076,11 +1113,13 @@ $(document).ready(function() {
      * @access      public
      * @author      Maninder Singh  <manindersingh221@gmail.com>
      */
-    $('li.label').on('click', function() {
+
+    $('#continent_labels a').on('click', function(e) {
+        e.preventDefault
         /*  blocking the UI by displaying a loading image   */
         //$.blockUI();
-        var countryName = $(this).attr('id');
-        $('li.label').removeClass('label-info');
+        var countryName = $(this).data('name');
+        $('#continent_labels a').removeClass('label-info');
         $(this).addClass('label-info');
         switch (countryName)
         {
@@ -1121,14 +1160,12 @@ $(document).ready(function() {
                 $('#d3_map_wrapper, .location-name').empty();
                 curr_hour_graph = 5;
                 drawHoursGraph();
-                //$('#d3_map_wrapper').addClass('text-center').append('<h3>Map coming soon.</h3>');
                 drawAsiaGraph();
                 break;
             case 'world':
                 transition();
                 $('#d3_map_wrapper, .location-name').empty();
                 curr_hour_graph = 0;
-
                 drawWorldGraph();
                 drawHoursGraph();
                 var slide_width = $('#slider-range').width();
@@ -1317,77 +1354,38 @@ $(document).ready(function() {
     }, 1000);
     //
 
-    function center_globe()
-    {
-        // globe centering
-        var window_width = $(window).width();
+    // function center_globe()
+    // {
+    //     // globe centering
+    //     var window_width = $(window).width();
 
-        var view_box_width = window_width - 340;
-        console.log(view_box_width);
-        if (view_box_width < 900 && view_box_width > 800)
-            $('#d3_map_wrapper').css({'left': '-7%'});
-        else if (view_box_width < 800 && view_box_width > 700)
-            $('#d3_map_wrapper').css({'left': '-14%'});
-        else if (view_box_width < 700 && view_box_width > 600)
-            $('#d3_map_wrapper').css({'left': '-21%'});
-        else if (view_box_width < 600 && view_box_width > 500)
-            $('#d3_map_wrapper').css({'left': '-28%'});
-        else
-            $('#d3_map_wrapper').css({'left': '0%'});
+    //     var view_box_width = window_width - 340;
+    //     console.log(view_box_width);
+    //     if (view_box_width < 900 && view_box_width > 800)
+    //         $('#d3_map_wrapper').css({'left': '-7%'});
+    //     else if (view_box_width < 800 && view_box_width > 700)
+    //         $('#d3_map_wrapper').css({'left': '-14%'});
+    //     else if (view_box_width < 700 && view_box_width > 600)
+    //         $('#d3_map_wrapper').css({'left': '-21%'});
+    //     else if (view_box_width < 600 && view_box_width > 500)
+    //         $('#d3_map_wrapper').css({'left': '-28%'});
+    //     else
+    //         $('#d3_map_wrapper').css({'left': '0%'});
 
 
-        //
-    }
+    //     //
+    // }
 // window resize functionality
     $(window).resize(function() {
 
-        $('#d3_map_wrapper svg').remove();
         var window_width = $(window).width();
         var adjust_width = window_width - 366;
-        if (window_width < 1130)
-        {
-            // $('.container').css({'width':'1200px'});
-        }
-        else
-            //  $('.container').css({'width':'100%'});
-            // console.log(window_width);
-            console.log('adjust width', adjust_width);
+
         $('#timeline_wrapper').css({'width': adjust_width + 'px'});
         $('#lineChart').width(6 * $('#timeline_wrapper').width());
         // $('#timeline_wrapper').width(adjust_width);
         // $('#timeline_wrapper_map').width(window_width - 362);
 
-        center_globe();
-        switch (curr_hour_graph)
-        {
-            case 0:
-                drawWorldGraph();
-                break;
-            case 1:
-                drawUSGraph();
-                break;
-            case 2:
-                drawEuropeGraph();
-                break;
-            case 3:
-                drawUKGraph();
-                break;
-            case 4:
-                drawAfricaGraph();
-                break;
-            case 5:
-                drawAsiaGraph();
-                break;
-            default:
-                drawWorldGraph();
-                break;
-
-        }
-
-
-        //console.log('resize');
-//        //console.log($( window ).width());
-//       // var window
 //        //var calc_width = parseFloat((58 / 100) * $(window).width());]
         var calc_width = $('#lineChart').width() - 10;
         $('#slider').width(calc_width);
