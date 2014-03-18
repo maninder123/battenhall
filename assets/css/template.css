@@ -67,7 +67,7 @@ svg circle
     width: 70%;
    
     float:left;
-    padding-top:30px; 
+    padding-top:12px; 
     margin-left: 10px;
     display: none;
     
@@ -126,7 +126,8 @@ svg circle
 
 #lineChart{
     width: 100%;
-    padding-left: 10px;
+    padding-left: 7px;
+    padding-right: 7px;
     position: relative;
     left: 0%;
   
@@ -305,7 +306,7 @@ svg {
     width: 750px;
     padding-left:10px;
     pointer-events: all;
-    padding-bottom: 20px;
+  //  padding-bottom: 20px;
 }
 circle {
     fill: #dbe4f0;
