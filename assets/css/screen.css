@@ -260,6 +260,10 @@ h3 {
 #container #map_container #timeline_wrapper {
   height: 160px;
 }
+#slider
+{
+    width: 85% !important;
+}
 /* line 172, ../../sass/screen.sass */
 #container #map_container #timeline_wrapper #slider {
   margin-bottom: 20px;
@@ -321,4 +325,9 @@ ul#continent_labels a {
   clear: left;
   height: 1px;
   background: url("../images/ui/border-horizontal-dotted.png") bottom left repeat-x;
+}
+
+#slider
+{
+    text-align: left !important;
 }
